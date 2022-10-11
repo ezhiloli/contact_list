@@ -13,7 +13,9 @@ app.set('views',path.join(__dirname,'views'));
 // send res or add checkpoint
 app.get('/',function(req,res){
     // res.send('Cool, it is running!');
-    return res.render('index');
+    // Everthing in JS is Obj => locals ={ title:"My Contact List"}
+    // We can Access in index file like this => locals.title
+    return res.render('index',{title:"My Contacts List"});
 })
 
 app.listen(port,function(err){
