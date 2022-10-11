@@ -42,10 +42,22 @@ app.get('/',function(req,res){
     // res.send('Cool, it is running!');
     // Everthing in JS is Obj => locals ={ title:"My Contact List"}
     // We can Access in index file like this => locals.title
-    return res.render('index',{
-        title:"My Contacts List",
-        contact_list:contactList
-    });
+
+    // fetching contact
+    Contact.find({},function(err,contacts){
+        if(err){
+            console.log('Error in fetching contact from DB');
+            return;
+        }
+        else{
+            return res.render('index',{
+                title:"My Contacts List",
+                contact_list:contacts
+            });
+        }
+    })
+
+  
 })
 app.get('/test-page',function(req,res){
     
@@ -62,7 +74,7 @@ app.post('/create-contact',function(req,res){
 
     Contact.create({
         name:req.body.name,
-         phone:req.body.name
+         phone:req.body.phone
     },function(err,newContact){
         if(err){
             console.log('Error in creating Contact',err);
