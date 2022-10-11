@@ -1,8 +1,11 @@
 const express = require('express');
-const port = 8080;
 // path is needed whenever we need set directory setup
 const path = require('path');
-// const { redirect } = require('statuses');
+const port = 8080;
+
+// configure the mongoose connection
+const db = require('./config/mongoose');
+const Contact = require('./models/contact');
 
 // To get all the functionality of express 
 const app = express();
@@ -13,6 +16,7 @@ app.set('views',path.join(__dirname,'views'));
 app.use(express.urlencoded());
 // access static files
 app.use(express.static('assets'));
+
 
 
 
@@ -49,20 +53,33 @@ app.get('/test-page',function(req,res){
 })
 app.post('/create-contact',function(req,res){
 
-    if(req.body.name && req.body.phone){
+    // if(req.body.name && req.body.phone){
 
-    contactList.push({
+    // contactList.push({
+    //     name:req.body.name,
+    //     phone:req.body.phone
+    // })
+
+    Contact.create({
         name:req.body.name,
-        phone:req.body.phone
+         phone:req.body.name
+    },function(err,newContact){
+        if(err){
+            console.log('Error in creating Contact',err);
+            return;
+        }
+        console.log('***************',newContact);
+        return res.redirect('back');
     })
 
    
-    console.log(req.body);
-    console.log('Name is:',req.body.name);
-    console.log('Phone Number is:',req.body.phone);
-    }
+    // console.log(req.body);
+    // console.log('Name is:',req.body.name);
+    // console.log('Phone Number is:',req.body.phone);
+    
 
-    return res.redirect('back');/// return res.redirect('/') same as <= ;  
+    // return res.redirect('back');
+/// return res.redirect('/') same as <= ;  
     // return res.redirect('test-page')
 });
 
@@ -87,5 +104,4 @@ app.listen(port,function(err){
         return;
     }
     console.log('server is up on port number:',port);
-    return;
 })
