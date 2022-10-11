@@ -4,22 +4,56 @@
         <title>
             <%= locals.title %>
         </title>
+        <link rel="stylesheet" href="/css/home.css"> 
+        <!-- /css refer root directory 1.Assets(in index.js as a middleware) 2.home.css -->
+        <script src="https://kit.fontawesome.com/9f129c00e7.js" crossorigin="anonymous"></script>
+
     </head>
     <body>
-        <div style="text-align: center;font-size:2.2rem;font-family: sans-serif;">Contact List</div>
-        <div>
-            <div>
+        <div id="contact-heading">
+            <i class="fa-solid fa-address-book"></i>
+            Contact List
+        </div>
+        <div class="contact-list">
+            <div class="contact-container">
                 <ul>
                     <% for(let i of contact_list) { %>
-
+                        
+                        <div class="row">
                         <li>
-                            <p><%=  i.name %> </p>
-                            <p><%=  i.phone %></p>
+                            <p class="contact-address" id="c-add">
+                                <span id="c-name">
+                                <%=  i.name %> 
+                                </span>
+                                <span id="c-phone">
+                                <%=  i.phone %>
+                                </span>
+                                <span>
+                                    <a href="/delete-contact/?<%=i.phone%>">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </span>
+                            </span>
+                        </p>
+
                         </li>
+                        </div>
+                        
 
                     <% } %>
                 </ul>
             </div>
         </div>
+        <div class="create-contact">
+            <form action="/create-contact" method="POST">
+
+                <input type="text" name="name" placeholder="Name of the Contact">
+                <input type="number" name="phone" placeholder="Mobile Number">
+                <button type="submit" value="ADD Contact">ADD </button>   
+
+            </form>
+        </div>
+
+        <script src="/js/home.js"></script>
     </body>
 </html>
