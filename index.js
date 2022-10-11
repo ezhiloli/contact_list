@@ -95,18 +95,31 @@ app.post('/create-contact',function(req,res){
     // return res.redirect('test-page')
 });
 
-app.get('/delete-contact/',function(req,res){
+app.get('/delete-contact',function(req,res){
     // 2 ways to get the data from url 1.Query Param 2. String Param
     // req.params is object
-    console.log(req.query);
-    let phone = req.query.phone;
+    // console.log(req.query);
+    // let phone = req.query.phone;
 
-    let contactIndex = contactList.findIndex(contact => contact.phone == phone);
+    // to delete from db we need to find id
+    let id = req.query.id;
 
-    if(contactIndex!=1){
-        contactList.splice(contactIndex,1);
-    }
-    return res.redirect('back')
+    // find the contact in db using the id;
+    Contact.findByIdAndDelete(id,function(err){
+        if(err){
+            console.log('Error');
+            return;
+        }
+
+        return res.redirect('back');
+    })
+
+    // let contactIndex = contactList.findIndex(contact => contact.phone == phone);
+
+    // if(contactIndex!=1){
+    //     contactList.splice(contactIndex,1);
+    // }
+    
 });
 
 app.listen(port,function(err){
